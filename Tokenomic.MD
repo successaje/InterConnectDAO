@@ -1,4 +1,4 @@
-# StudentGovernance DAO Tokenomics
+# EduGovern DAO Tokenomics
 
 ## Introduction
 
@@ -25,7 +25,7 @@ The EduGovern DAO operates on a tokenomics model designed to incentivize active 
 
 - **Membership:** Holding a minimum number of STUDENT-GOV tokens grants membership status, allowing users to submit proposals and participate in voting.
 - **Voting Power:** The number of tokens held determines the weight of the vote in governance decisions.
-- **Rewards:** Active participants and contributors are eligible to receive additional STUDENT-GOV tokens as rewards.
+- **Rewards:** Active participants and contributors are eligible to receive additional EG-DAO tokens as rewards.
 - **Governance Control:** Token holders collectively govern the DAO, influencing decisions and shaping the direction of the academic community.
 
 ## Governance
