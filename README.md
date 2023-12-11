@@ -15,7 +15,7 @@ EduGovern DAO is a decentralized autonomous organization designed to empower stu
 
 ## Introduction
 
-StudentGovernance DAO is a platform built on the Internet Computer using Motoko, designed to provide students with a decentralized space for proposing and voting on changes, participating in governance, and contributing to the improvement of the academic environment.
+EduGovern DAO is a platform built on the Internet Computer using Motoko, designed to provide students with a decentralized space for proposing and voting on changes, participating in governance, and contributing to the improvement of the academic environment.
 
 ## Features
 
