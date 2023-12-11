@@ -40,7 +40,7 @@ Check Token Balance:
 # commands to vote on a proposal
 
 ## Tokenomics
-The StudentGovernance DAO operates on a governance token (EDU-GOV) system. Tokens are distributed based on participation, contribution, and tenure within the DAO. Refer to Tokenomics.md for detailed information.
+The StudentGovernance DAO operates on a governance token (EDU-GOV) system. Tokens are distributed based on participation, contribution, and tenure within the DAO. Refer to [Tokenomics.md](https://github.com/successaje/EduGovern-DAO/blob/main/Tokenomic.MD) for detailed information.
 
 ## Contributing
 We welcome contributions from the community! To contribute, please follow our Contributing Guidelines.
@@ -50,5 +50,5 @@ Join our Discord Channel to connect with other members and discuss proposals.
 Follow us on Twitter for updates and announcements.
 
 ## License
-This project is licensed under the MIT License.
+This project is licensed under the [MIT License](https://choosealicense.com/licenses/mit/).
 
