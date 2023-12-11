@@ -2,7 +2,7 @@
 
 ## Introduction
 
-The StudentGovernance DAO operates on a tokenomics model designed to incentivize active participation, reward contributions, and facilitate decentralized decision-making within the academic community. The native governance token is referred to as STUDENT-GOV.
+The EduGovern DAO operates on a tokenomics model designed to incentivize active participation, reward contributions, and facilitate decentralized decision-making within the academic community. The native governance token is referred to as EG-DAO.
 
 ## Token Distribution
 
