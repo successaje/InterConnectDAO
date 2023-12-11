@@ -2,6 +2,7 @@
 EduGovern DAO is a decentralized autonomous organization designed to empower students in making collective decisions and shaping the governance of academic initiatives within their community.
 
 
+
 ## Table of Contents
 
 - [Introduction](#introduction)
@@ -50,3 +51,4 @@ Follow us on Twitter for updates and announcements.
 
 ## License
 This project is licensed under the MIT License.
+
