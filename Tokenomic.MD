@@ -45,7 +45,7 @@ As the StudentGovernance DAO evolves, additional features and improvements to th
 
 ## Disclaimer
 
-The information provided in this document is subject to change and may be updated as the StudentGovernance DAO evolves. Participants are encouraged to stay informed and engage in discussions to contribute to the DAO's growth.
+The information provided in this document is subject to change and may be updated as the EduGovern DAO evolves. Participants are encouraged to stay informed and engage in discussions to contribute to the DAO's growth.
 
 ---
 **Note:** This is a sample tokenomics document, and you should customize it based on your specific distribution model, utility, and governance mechanisms.
