@@ -15,15 +15,17 @@ EduGovern DAO is a decentralized autonomous organization designed to empower stu
 
 ## Introduction
 
-EduGovern DAO is a platform built on the Internet Computer using Motoko, designed to provide students with a decentralized space for proposing and voting on changes, participating in governance, and contributing to the improvement of the academic environment.
+InterConnectDAO is designed to provide a decentralized space for individuals and organizations to collaborate and make collective decisions. Users can register, propose changes, and actively participate in the governance of both individual and organizational matters.
+
 
 ## Features
 
-- **Proposal Submission:** Students can submit proposals for various initiatives, changes, or projects within the academic community.
-- **Voting Mechanism:** Transparent and secure voting on proposals using governance tokens.
+- **User and Organization Registration:** Seamless registration process for both individuals and organizations.
+- **Proposal Submissions:** Users can submit proposals on various matters, affecting both individuals and organizations.
+- **Collaborative Decision-Making:** Transparent and secure voting on proposals, fostering community collaboration.
 - **Tokenomics:** Governance tokens used for membership, voting, and rewarding active participants.
-- **Decentralized Governance:** Empowering students to have a say in decisions affecting their academic life.
-- **Community Collaboration:** Foster collaboration and innovation among students through decentralized decision-making.
+- **Decentralized Governance:** Empowering users and organizations to actively participate in decision-making.
+
 
  
 ## Usage
