@@ -1,19 +1,19 @@
 {
   "canisters": {
-    "eg_dao_backend": {
-      "main": "src/eg_dao_backend/main.mo",
+    "ic_dao_backend": {
+      "main": "src/ic_dao_backend/main.mo",
       "type": "motoko"
     },
-    "eg_dao_frontend": {
+    "ic_dao_frontend": {
       "dependencies": [
-        "eg_dao_backend"
+        "ic_dao_backend"
       ],
       "frontend": {
-        "entrypoint": "src/eg_dao_frontend/src/index.html"
+        "entrypoint": "src/ic_dao_frontend/src/index.html"
       },
       "source": [
-        "src/eg_dao_frontend/assets",
-        "dist/eg_dao_frontend/"
+        "src/ic_dao_frontend/assets",
+        "dist/ic_dao_frontend/"
       ],
       "type": "assets"
     }

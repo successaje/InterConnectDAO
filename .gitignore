@@ -133,6 +133,6 @@ dist
 .pnp.*
 
 
-eg_dao/node_modules
+ic_dao/node_modules
 
 

@@ -1,4 +1,4 @@
-import { eg_dao_backend } from "../../declarations/eg_dao_backend";
+import { ic_dao_backend } from "../../declarations/ic_dao_backend";
 
 document.querySelector("form").addEventListener("submit", async (e) => {
   e.preventDefault();
@@ -9,7 +9,7 @@ document.querySelector("form").addEventListener("submit", async (e) => {
   button.setAttribute("disabled", true);
 
   // Interact with foo actor, calling the greet method
-  const greeting = await eg_dao_backend.greet(name);
+  const greeting = await ic_dao_backend.greet(name);
 
   button.removeAttribute("disabled");
 
