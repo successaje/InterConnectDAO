@@ -1,6 +1,5 @@
-# EduGovern-DAO
-EduGovern DAO is a decentralized autonomous organization designed to empower students in making collective decisions and shaping the governance of academic initiatives within their community.
-
+# InterConnectDAO
+InterConnectDAO is a decentralized platform fostering collaboration between users and organizations. This DAO enables users to make proposals on matters related to both individual users and organizations, creating a sense of community and shared decision-making.
 
 
 ## Table of Contents
@@ -42,7 +41,7 @@ Check Token Balance:
 # commands to vote on a proposal
 
 ## Tokenomics
-The StudentGovernance DAO operates on a governance token (EDU-GOV) system. Tokens are distributed based on participation, contribution, and tenure within the DAO. Refer to [Tokenomics.md](https://github.com/successaje/EduGovern-DAO/blob/main/Tokenomic.MD) for detailed information.
+The StudentGovernance DAO operates on a governance token (EDU-GOV) system. Tokens are distributed based on participation, contribution, and tenure within the DAO. Refer to [Tokenomics.md](https://github.com/successaje/InternetConnectDAO/blob/main/Tokenomic.MD) for detailed information.
 
 ## Contributing
 We welcome contributions from the community! To contribute, please follow our Contributing Guidelines.
