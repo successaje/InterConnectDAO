@@ -41,11 +41,11 @@ export type HeaderField = [string, string];
 export interface HttpRequest {
   'url' : string,
   'method' : string,
-  'body' : Uint8Array,
+  'body' : Uint8Array | number[],
   'headers' : Array<HeaderField>,
 }
 export interface HttpResponse {
-  'body' : Uint8Array,
+  'body' : Uint8Array | number[],
   'headers' : Array<HeaderField>,
   'streaming_strategy' : [] | [StreamingStrategy],
   'status_code' : number,
@@ -71,7 +71,7 @@ export type StreamingCallback = ActorMethod<
 >;
 export interface StreamingCallbackResponse {
   'token' : [] | [StreamingCallbackToken],
-  'body' : Uint8Array,
+  'body' : Uint8Array | number[],
 }
 export interface StreamingCallbackToken {
   'key' : string,
@@ -84,7 +84,7 @@ export type StreamingStrategy = {
       'callback' : StreamingCallback,
     }
   };
-export type Subaccount = Uint8Array;
+export type Subaccount = Uint8Array | number[];
 export type VoteErr = { 'AlreadyVoted' : null } |
   { 'ProposalEnded' : null } |
   { 'ProposalNotFound' : null } |

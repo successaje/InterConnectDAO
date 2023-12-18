@@ -1,7 +1,7 @@
 // https://m7sm4-2iaaa-aaaab-qabra-cai.raw.ic0.app/?tag=2567882399
 
-import Http "http";
-import Account "lvl3/account";
+import Http "utilities/http";
+import Account "utilities/account";
 import Result "mo:base/Result";
 import TrieMap "mo:base/TrieMap";
 import HashMap "mo:base/HashMap";
@@ -12,32 +12,50 @@ import Nat "mo:base/Nat";
 import Hash "mo:base/Hash";
 import Array "mo:base/Array";
 
-actor class DAO() = this {  
+actor class ICDAO() = this {  
 
   let logo : Text = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"512\" height=\"512\" xml:space=\"preserve\"><g fill-rule=\"evenodd\" clip-rule=\"evenodd\"><path fill=\"#1E62D6\" d=\"M128 352c53.023 0 96-42.977 96-96h32c0 70.688-57.309 128-128 128S0 326.688 0 256c0-70.691 57.309-128 128-128 31.398 0 60.141 11.344 82.406 30.117l-.039.059c3.414 2.93 5.625 7.215 5.625 12.082 0 8.824-7.156 16-16 16-3.859 0-7.371-1.434-10.145-3.723l-.039.059C173.109 168.516 151.562 160 128 160c-53.023 0-96 42.977-96 96s42.977 96 96 96z\"/><path fill=\"#FF0083\" d=\"M352 384c-8.844 0-16-7.156-16-16s7.156-16 16-16c53.023 0 96-42.977 96-96s-42.977-96-96-96-96 42.977-96 96h-32c0-70.691 57.312-128 128-128s128 57.309 128 128c0 70.688-57.312 128-128 128zm-64-48c8.844 0 16 7.156 16 16s-7.156 16-16 16-16-7.156-16-16 7.156-16 16-16z\"/></g></svg>";
 
   // lvl 2
   public type Member = {
         name : Text;
-        age : Nat;
+        userName : Text;
+        email : ?Text;
+        age : ?Nat;
+        joinAs : UserType;
     };
+
+    public type UserType = { #Org; #Reg };
     public type Result<A, B> = Result.Result<A, B>;
     public type HashMap<A, B> = HashMap.HashMap<A, B>;
 
     var members : HashMap<Principal, Member> = HashMap.HashMap<Principal, Member>(0, Principal.equal, Principal.hash);
 
-
     public shared ({ caller }) func addMember(member : Member) : async Result<(), Text> {
       switch(members.get(caller)){
         case(null){
+          if (not(usernameChecker(member.userName))){
+            return #err("Username exists, need to be unique");
+          };
           members.put(caller, member);
           return #ok();
         }; case(_){
           return #err("User already exists");
         }
       }
-        
     };
+
+    func usernameChecker(username : Text) : Bool {
+      var unique = true;
+      for ((i, j) in members.entries()) {
+          if (j.userName == username) {
+              unique := false;
+          };
+      };
+      unique;
+    };
+
+
 
     public shared ({ caller }) func updateMember(member : Member) : async Result<(), Text> {
       switch(members.get(caller)){

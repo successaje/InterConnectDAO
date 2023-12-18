@@ -4,7 +4,7 @@ import { Actor, HttpAgent } from "@dfinity/agent";
 import { idlFactory } from './ic_dao_backend.did.js';
 export { idlFactory } from './ic_dao_backend.did.js';
 // CANISTER_ID is replaced by webpack based on node environment
-export const canisterId = process.env.ic_dao_BACKEND_CANISTER_ID;
+export const canisterId = process.env.IC_DAO_BACKEND_CANISTER_ID;
 
 /**
  * @deprecated since dfx 0.11.1
