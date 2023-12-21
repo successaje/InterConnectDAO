@@ -2,6 +2,7 @@
 
 import Http "utilities/http";
 import Account "utilities/account";
+import Buffer "mo:base/Buffer";
 import Result "mo:base/Result";
 import TrieMap "mo:base/TrieMap";
 import HashMap "mo:base/HashMap";
@@ -45,6 +46,8 @@ actor class ICDAO() = this {
       }
     };
 
+
+
     func usernameChecker(username : Text) : Bool {
       var unique = true;
       for ((i, j) in members.entries()) {
@@ -54,8 +57,6 @@ actor class ICDAO() = this {
       };
       unique;
     };
-
-
 
     public shared ({ caller }) func updateMember(member : Member) : async Result<(), Text> {
       switch(members.get(caller)){
@@ -101,6 +102,38 @@ actor class ICDAO() = this {
 
     public query func getAllMembers() : async [Member] {
         return Iter.toArray(members.vals());
+    };
+
+    public query func getOrgMembers() : async [Member] {
+        var buffer = Buffer.Buffer<Member>(0);
+        for ((key, vals) in members.entries())
+          {if (vals.joinAs == #Org){
+            buffer.add(vals);
+          };
+        };
+        buffer.toArray();
+    };
+
+    public query func isOrg(principal : Principal) : async Bool {
+      var isorg = false;
+      for ((key, vals) in members.entries()){
+        if (key == principal){
+          if (vals.joinAs == #Org){
+            isorg := true;
+          };
+        };
+      };
+      isorg;  
+    };
+
+    public query func getRegMembers() : async [Member] {
+        var buffer = Buffer.Buffer<Member>(0);
+        for ((key, vals) in members.entries())
+          {if (vals.joinAs == #Reg){
+            buffer.add(vals);
+          };
+        };
+        buffer.toArray();
     };
 
     public query func numberOfMembers() : async Nat {
@@ -221,6 +254,7 @@ actor class ICDAO() = this {
         manifest : Text;
         votes : Int;
         voters : [Principal];
+        proposal_type : UserType;
     };
 
     var nextProposalId : Nat = 0;
@@ -265,13 +299,26 @@ actor class ICDAO() = this {
 
       let pid = nextProposalId;
 
-      let proposal : Proposal = {
-        id = pid;
-        status = #Open;
-        manifest;
-        votes = 0;
-        voters = [];
+      var proposal : Proposal = {
+          id = pid;
+          status = #Open;
+          manifest;
+          votes = 0;
+          voters = [];
+          proposal_type = #Reg;
+        };
+
+      if ((await isOrg(caller))){
+        proposal := {
+          id = pid;
+          status = #Open;
+          manifest;
+          votes = 0;
+          voters = [];
+          proposal_type = #Org;
+        };
       };
+
       proposals.put (pid, proposal);
       _burnTokens(caller, 2);
       nextProposalId += 1;
@@ -352,6 +399,7 @@ actor class ICDAO() = this {
                     manifest = proposal.manifest;
                     votes = newVotes;
                     voters = newVoters;
+                    proposal_type = proposal.proposal_type;
                 };
 
                 proposals.put(proposal.id, newProposal);
