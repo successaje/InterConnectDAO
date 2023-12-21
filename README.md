@@ -41,7 +41,7 @@ Check Token Balance:
 # commands to vote on a proposal
 
 ## Tokenomics
-The StudentGovernance DAO operates on a governance token (EDU-GOV) system. Tokens are distributed based on participation, contribution, and tenure within the DAO. Refer to [Tokenomics.md](https://github.com/successaje/InternetConnectDAO/blob/main/Tokenomic.MD) for detailed information.
+The IC DAO operates on a governance token (ICDAO) system. Tokens are distributed based on participation, contribution, and tenure within the DAO. Refer to [Tokenomics.md](https://github.com/successaje/InternetConnectDAO/blob/main/Tokenomic.MD) for detailed information.
 
 ## Contributing
 We welcome contributions from the community! To contribute, please follow our Contributing Guidelines.
