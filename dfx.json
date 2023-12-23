@@ -2,7 +2,8 @@
   "canisters": {
     "ic_dao_backend": {
       "main": "src/ic_dao_backend/main.mo",
-      "type": "motoko"
+      "type": "motoko",
+      "dependencies": ["icdao"]
     },
 
     "icdao" : {

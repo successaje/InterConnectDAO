@@ -135,4 +135,6 @@ dist
 
 ic_dao/node_modules
 
+.dfx
+
 

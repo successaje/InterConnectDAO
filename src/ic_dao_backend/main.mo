@@ -13,6 +13,8 @@ import Nat "mo:base/Nat";
 import Hash "mo:base/Hash";
 import Array "mo:base/Array";
 
+import icdao "canister:icdao";
+
 actor class ICDAO() = this {  
 
   let logo : Text = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"512\" height=\"512\" xml:space=\"preserve\"><g fill-rule=\"evenodd\" clip-rule=\"evenodd\"><path fill=\"#1E62D6\" d=\"M128 352c53.023 0 96-42.977 96-96h32c0 70.688-57.309 128-128 128S0 326.688 0 256c0-70.691 57.309-128 128-128 31.398 0 60.141 11.344 82.406 30.117l-.039.059c3.414 2.93 5.625 7.215 5.625 12.082 0 8.824-7.156 16-16 16-3.859 0-7.371-1.434-10.145-3.723l-.039.059C173.109 168.516 151.562 160 128 160c-53.023 0-96 42.977-96 96s42.977 96 96 96z\"/><path fill=\"#FF0083\" d=\"M352 384c-8.844 0-16-7.156-16-16s7.156-16 16-16c53.023 0 96-42.977 96-96s-42.977-96-96-96-96 42.977-96 96h-32c0-70.691 57.312-128 128-128s128 57.309 128 128c0 70.688-57.312 128-128 128zm-64-48c8.844 0 16 7.156 16 16s-7.156 16-16 16-16-7.156-16-16 7.156-16 16-16z\"/></g></svg>";
@@ -139,8 +141,11 @@ actor class ICDAO() = this {
     public query func numberOfMembers() : async Nat {
         return members.size();
     };
+
   
-  // lvl 3
+    /////////////////
+   //    Tokens   //
+  /////////////////
 
   let ledger : TrieMap.TrieMap<Account, Nat> = TrieMap.TrieMap(Account.accountsEqual, Account.accountsHash);
 
@@ -197,6 +202,7 @@ actor class ICDAO() = this {
         return #ok();
     };
 
+    /// deprecated
     public query func balanceOf(account : Account) : async Nat {
         return switch (ledger.get(account)) {
             case (null) { 0 };
@@ -204,7 +210,12 @@ actor class ICDAO() = this {
         };
     };
 
-    func _burnTokens(caller : Principal, burnAmount : Nat) {
+    public func _balance(caller : Principal) : async Nat {
+      await icdao.balanceOf(caller);
+    };
+    
+    // / deprecated func
+    func burnTokens(caller : Principal, burnAmount : Nat) {
         let defaultAccount = { owner = caller; subaccount = null };
         switch (ledger.get(defaultAccount)) {
             case (null) { return };
@@ -212,12 +223,16 @@ actor class ICDAO() = this {
         };
     };
 
-    func hasEnoughToken(owner : Principal, n : Nat) : Bool {
+    func _burnTokens(caller : Principal, amount : Nat) : async Bool{
+      await icdao.burn(caller, amount);
+    };
+
+    func hasEnoughToken(owner : Principal, n : Nat) : async Bool {
       let user = { 
         owner = owner; 
         subaccount = null 
       };
-      let balance = _balanceOf(user);
+      let balance : Nat = await _balance(owner);
       if (n > balance) {
         return false;
       };
@@ -232,8 +247,6 @@ actor class ICDAO() = this {
         };
     };
 
-
-
     public query func totalSupply() : async Nat {
         var totalSupply = 0;
         for (balance in ledger.vals()) {
@@ -241,6 +254,10 @@ actor class ICDAO() = this {
         };
         return totalSupply;
     };
+
+      //////////////////////////
+     //  Proposals and votes //
+    //////////////////////////
   
   public type Status = {
         #Open;
@@ -293,7 +310,7 @@ actor class ICDAO() = this {
         return #err(#NotDAOMember);
       };
 
-      if (not (hasEnoughToken(caller, 2))) {
+      if (not (await hasEnoughToken(caller, 2))) {
         return #err(#NotEnoughTokens)
       };
 
@@ -320,9 +337,11 @@ actor class ICDAO() = this {
       };
 
       proposals.put (pid, proposal);
-      _burnTokens(caller, 2);
-      nextProposalId += 1;
+      if (await _burnTokens(caller, 2)){
+        nextProposalId += 1;
+      };
       return #ok(pid);
+      
     };
 
     public query func getProposal(id : Nat) : async ?Proposal {
@@ -354,7 +373,7 @@ actor class ICDAO() = this {
             return #err(#NotDAOMember);
         };
         
-        if (not (hasEnoughToken(caller, 1))) {
+        if (not (await hasEnoughToken(caller, 1))) {
             return #err(#NotEnoughTokens);
         };
 
