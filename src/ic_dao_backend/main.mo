@@ -228,10 +228,6 @@ actor class ICDAO() = this {
     };
 
     func hasEnoughToken(owner : Principal, n : Nat) : async Bool {
-      let user = { 
-        owner = owner; 
-        subaccount = null 
-      };
       let balance : Nat = await _balance(owner);
       if (n > balance) {
         return false;

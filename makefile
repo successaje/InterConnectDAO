@@ -8,11 +8,11 @@ all: build
 # Run tests
 test:
 
-.PHONY: webink
-.SILENT: webink
+.PHONY: icdao
+.SILENT: icdao
 
 # Deploy the DAO contract
-deploy:
+icdao:
 	$(eval icdaoCanisterID=$(shell dfx canister id icdao))
 	echo icdaoCanisterID = $(icdaoCanisterID)
 	dfx deploy icdao --argument="(principal \"$(icdaoCanisterID)\", record { \"_name\" = \"icdao\"; \"_symbol\" = \"icdao\"; \"_decimals\" = 0 : nat; \"_initialSupply\" = 1000000000000 : nat; }) " 
@@ -20,6 +20,7 @@ deploy:
 	#     principal $(icdaoCanisterID),	
 	#  	  record { \"_name\" = \"icdao\"; \"_symbol\" = \"icdao\"; \"_decimals\" = 0 : nat; \"_initialSupply\" = 1000000000000 : nat; }
 	# )"
+	dfx deploy ic_dao_backend
 	$(eval icdaoCanisterID=$(shell dfx canister id icdao))
 	$(eval candidID=$(shell dfx canister id __Candid_UI))
 	# Copy declarations into /declarations
