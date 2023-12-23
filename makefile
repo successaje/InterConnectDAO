@@ -17,8 +17,11 @@ deploy:
 	echo icdaoCanisterID = $(icdaoCanisterID)
 	dfx deploy icdao --argument="(principal \"$(icdaoCanister)\") " 
 	# dfx deploy icdao --argument="(
-	#     principal $(icdaoCanisterID),
-	#	
+	#	  \"name\" = \"icdao\",
+	#	  \"symbol\" = \"icd\",
+	#	  \"decimals\" = 0 : nat,
+	#	  \"initialSupply\" = 1_000_000_000_000 : nat,
+	#     principal $(icdaoCanisterID),	
 	# )"
 	$(eval icdaoCanisterID=$(shell dfx canister id webink))
 	$(eval candidID=$(shell dfx canister id __Candid_UI))
