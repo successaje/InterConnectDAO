@@ -2,20 +2,28 @@ import HashMap "mo:base/HashMap";
 import Principal "mo:base/Principal";
 
 
-actor class Token(_name: Text, _symbol: Text, _decimals: Nat, _initialSupply: Nat, _owner: Principal) {
+actor class Token(
+    _owner: Principal,
+    tokenMeta: {
+        _name: Text;
+        _symbol: Text;
+        _decimals: Nat;
+        _initialSupply: Nat;
+    },
+    ) {
 
     private stable var owner_ : Principal = _owner;
-    private stable let name_ : Text = _name;
-    private stable let decimals_ : Nat = _decimals;
-    private stable let symbol_ : Text = _symbol;
-    private stable var totalSupply_ : Nat = _initialSupply;
+    private stable let name_ : Text = tokenMeta._name;
+    private stable let decimals_ : Nat = tokenMeta._decimals;
+    private stable let symbol_ : Text = tokenMeta._symbol;
+    private stable var totalSupply_ : Nat = tokenMeta._initialSupply;
 
     private var balances =  HashMap.HashMap<Principal, Nat>(1, Principal.equal, Principal.hash);
     private var allowances = HashMap.HashMap<Principal, HashMap.HashMap<Principal, Nat>>(1, Principal.equal, Principal.hash);
 
     balances.put(owner_, totalSupply_);
 
-    private shared func increaseSupply(amount: Nat) : async () {
+    private func increaseSupply(amount: Nat) : async () {
         // Logic to increase the total supply by `amount`
         totalSupply_ += amount;
     };

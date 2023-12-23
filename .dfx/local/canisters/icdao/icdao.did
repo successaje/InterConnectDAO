@@ -1,0 +1,21 @@
+type Token = 
+ service {
+   allowance: (principal, principal) -> (nat) query;
+   approve: (principal, nat) -> (bool);
+   balanceOf: (principal) -> (nat) query;
+   burn: (principal, nat) -> (bool);
+   decimals: () -> (nat) query;
+   mint: (principal, nat) -> (bool);
+   name: () -> (text) query;
+   owner: () -> (principal) query;
+   symbol: () -> (text) query;
+   totalSupply: () -> (nat) query;
+   transfer: (principal, nat) -> (bool);
+   transferFrom: (principal, principal, nat) -> (bool);
+ };
+service : (principal, record {
+                        _decimals: nat;
+                        _initialSupply: nat;
+                        _name: text;
+                        _symbol: text;
+                      }) -> Token

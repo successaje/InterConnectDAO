@@ -4,6 +4,12 @@
       "main": "src/ic_dao_backend/main.mo",
       "type": "motoko"
     },
+
+    "icdao" : {
+      "main" : "src/ic_dao_backend/erc20/main.mo",
+      "type": "motoko"
+    },
+
     "ic_dao_frontend": {
       "dependencies": [
         "ic_dao_backend"

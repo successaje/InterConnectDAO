@@ -1,0 +1,9 @@
+(
+  principal,
+  record {
+    _decimals : nat;
+    _symbol : text;
+    _initialSupply : nat;
+    _name : text;
+  },
+)

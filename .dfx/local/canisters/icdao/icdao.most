@@ -1,0 +1,8 @@
+// Version: 1.0.0
+actor {
+  stable decimals_ : Nat;
+  stable name_ : Text;
+  stable var owner_ : Principal;
+  stable symbol_ : Text;
+  stable var totalSupply_ : Nat
+};

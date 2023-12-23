@@ -15,15 +15,12 @@ test:
 deploy:
 	$(eval icdaoCanisterID=$(shell dfx canister id icdao))
 	echo icdaoCanisterID = $(icdaoCanisterID)
-	dfx deploy icdao --argument="(principal \"$(icdaoCanister)\") " 
-	# dfx deploy icdao --argument="(
-	#	  \"name\" = \"icdao\",
-	#	  \"symbol\" = \"icd\",
-	#	  \"decimals\" = 0 : nat,
-	#	  \"initialSupply\" = 1_000_000_000_000 : nat,
+	dfx deploy icdao --argument="(principal \"$(icdaoCanisterID)\", record { \"_name\" = \"icdao\"; \"_symbol\" = \"icdao\"; \"_decimals\" = 0 : nat; \"_initialSupply\" = 1000000000000 : nat; }) " 
+	# dfx deploy icdao --argument="( 
 	#     principal $(icdaoCanisterID),	
+	#  	  record { \"_name\" = \"icdao\"; \"_symbol\" = \"icdao\"; \"_decimals\" = 0 : nat; \"_initialSupply\" = 1000000000000 : nat; }
 	# )"
-	$(eval icdaoCanisterID=$(shell dfx canister id webink))
+	$(eval icdaoCanisterID=$(shell dfx canister id icdao))
 	$(eval candidID=$(shell dfx canister id __Candid_UI))
 	# Copy declarations into /declarations
 	echo icdaoCanisterID = $(icdaoCanisterID)
