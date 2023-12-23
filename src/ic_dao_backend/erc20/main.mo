@@ -111,8 +111,7 @@ actor class Token(_name: Text, _symbol: Text, _decimals: Nat, _initialSupply: Na
                 balances.put(to, to_balance + value);
                 totalSupply_ += value;
                 return true;
-            };
-            case (_) {
+            }; case (_) {
                 balances.put(to, value);
                 totalSupply_ += value;
                 return true;
@@ -120,10 +119,71 @@ actor class Token(_name: Text, _symbol: Text, _decimals: Nat, _initialSupply: Na
         }
     };
 
+    public shared ({ caller }) func burn(from: Principal, value: Nat): async Bool {
+        assert(caller == owner_ or caller == from);
+        switch (balances.get(from)) {
+            case (?from_balance) {
+                if(from_balance >= value) {
+                    balances.put(from, from_balance - value);
+                    totalSupply_ -= value;
+                    return true;
+                } else {
+                    return false;
+                }
+            }; case (_) {
+                return false;
+            };
+        }
+    };
 
+    public query func balanceOf(who: Principal) : async Nat {
+        switch (balances.get(who)) {
+            case (?balance) {
+                return balance;
+            };
+            case (_) {
+                return 0;
+            };
+        }
+    };
 
+    public query func allowance(owner: Principal, spender: Principal) : async Nat {
+        switch(allowances.get(owner)) {
+            case (?allowance_owner) {
+                switch(allowance_owner.get(spender)) {
+                    case (?allowance) {
+                        return allowance;
+                    };
+                    case (_) {
+                        return 0;
+                    };
+                }
+            };
+            case (_) {
+                return 0;
+            };
+        }
+    };
 
+    public query func totalSupply() : async Nat {
+        return totalSupply_;
+    };
 
+    public query func name() : async Text {
+        return name_;
+    };
+
+    public query func decimals() : async Nat {
+        return decimals_;
+    };
+
+    public query func symbol() : async Text {
+        return symbol_;
+    };
+
+    public query func owner() : async Principal {
+        return owner_;
+    };
 
 
 }
