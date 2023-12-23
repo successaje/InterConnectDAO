@@ -11,6 +11,11 @@
       "type": "motoko"
     },
 
+    "internet-identity" : {
+      "type": "pull",
+      "id": "rdmx6-jaaaa-aaaaa-aaadq-cai"
+    },
+
     "ic_dao_frontend": {
       "dependencies": [
         "ic_dao_backend"
