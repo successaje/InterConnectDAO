@@ -47,10 +47,10 @@ actor class Token(_name: Text, _symbol: Text, _decimals: Nat, _initialSupply: Na
         }
     };
 
-    public shared(msg) func transferFrom(from: Principal, to: Principal, value: Nat) : async Bool {
+    public shared ({ caller }) func transferFrom(from: Principal, to: Principal, value: Nat) : async Bool {
         switch (balances.get(from), allowances.get(from)) {
             case (?from_balance, ?allowance_from) {
-                switch (allowance_from.get(msg.caller)) {
+                switch (allowance_from.get(caller)) {
                     case (?allowance) {
                         if (from_balance >= value and allowance >= value) {
                             var from_balance_new : Nat = from_balance - value;
@@ -70,7 +70,7 @@ actor class Token(_name: Text, _symbol: Text, _decimals: Nat, _initialSupply: Na
 
                             var allowance_new : Nat = allowance - value;
                             assert(allowance_new <= allowance);
-                            allowance_from.put(msg.caller, allowance_new);
+                            allowance_from.put(caller, allowance_new);
                             allowances.put(from, allowance_from);
                             return true;                            
                         } else {
@@ -88,23 +88,40 @@ actor class Token(_name: Text, _symbol: Text, _decimals: Nat, _initialSupply: Na
         }
     };
 
-    public shared(msg) func approve(spender: Principal, value: Nat) : async Bool {
-        switch(allowances.get(msg.caller)) {
+    public shared ({ caller }) func approve(spender: Principal, value: Nat) : async Bool {
+        switch(allowances.get(caller)) {
             case (?allowances_caller) {
                 allowances_caller.put(spender, value);
-                allowances.put(msg.caller, allowances_caller);
+                allowances.put(caller, allowances_caller);
                 return true;
             };
             case (_) {
                 var temp = HashMap.HashMap<Principal, Nat>(1, Principal.equal, Principal.hash);
                 temp.put(spender, value);
-                allowances.put(msg.caller, temp);
+                allowances.put(caller, temp);
                 return true;
             };
         }
     };
 
-    
+    public shared ({ caller }) func mint(to: Principal, value: Nat): async Bool {
+        assert(caller == owner_);
+        switch (balances.get(to)) {
+            case (?to_balance) {
+                balances.put(to, to_balance + value);
+                totalSupply_ += value;
+                return true;
+            };
+            case (_) {
+                balances.put(to, value);
+                totalSupply_ += value;
+                return true;
+            };
+        }
+    };
+
+
+
 
 
 
