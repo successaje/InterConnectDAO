@@ -1,5 +1,12 @@
 export const idlFactory = ({ IDL }) => {
-  const Member = IDL.Record({ 'age' : IDL.Nat, 'name' : IDL.Text });
+  const UserType = IDL.Variant({ 'Org' : IDL.Null, 'Reg' : IDL.Null });
+  const Member = IDL.Record({
+    'age' : IDL.Opt(IDL.Nat),
+    'userName' : IDL.Text,
+    'name' : IDL.Text,
+    'email' : IDL.Opt(IDL.Text),
+    'joinAs' : UserType,
+  });
   const Result = IDL.Variant({ 'ok' : IDL.Null, 'err' : IDL.Text });
   const Subaccount = IDL.Vec(IDL.Nat8);
   const Account = IDL.Record({
@@ -27,6 +34,7 @@ export const idlFactory = ({ IDL }) => {
     'votes' : IDL.Int,
     'voters' : IDL.Vec(IDL.Principal),
     'manifest' : IDL.Text,
+    'proposal_type' : UserType,
   });
   const DAOStats = IDL.Record({
     'member' : IDL.Vec(IDL.Text),
@@ -82,15 +90,19 @@ export const idlFactory = ({ IDL }) => {
     'NotEnoughTokens' : IDL.Null,
   });
   const voteResult = IDL.Variant({ 'ok' : VoteOk, 'err' : VoteErr });
-  const DAO = IDL.Service({
+  const ICDAO = IDL.Service({
+    '_balance' : IDL.Func([IDL.Principal], [IDL.Nat], []),
     'addMember' : IDL.Func([Member], [Result], []),
     'balanceOf' : IDL.Func([Account], [IDL.Nat], ['query']),
     'createProposal' : IDL.Func([IDL.Text], [CreateProposalResult], []),
     'getAllMembers' : IDL.Func([], [IDL.Vec(Member)], ['query']),
     'getMember' : IDL.Func([IDL.Principal], [Result_1], ['query']),
+    'getOrgMembers' : IDL.Func([], [IDL.Vec(Member)], ['query']),
     'getProposal' : IDL.Func([IDL.Nat], [IDL.Opt(Proposal)], ['query']),
+    'getRegMembers' : IDL.Func([], [IDL.Vec(Member)], ['query']),
     'getStats' : IDL.Func([], [DAOStats], ['query']),
     'http_request' : IDL.Func([HttpRequest], [HttpResponse], ['query']),
+    'isOrg' : IDL.Func([IDL.Principal], [IDL.Bool], ['query']),
     'mint' : IDL.Func([IDL.Principal, IDL.Nat], [], []),
     'numberOfMembers' : IDL.Func([], [IDL.Nat], ['query']),
     'removeMember' : IDL.Func([], [Result], []),
@@ -100,7 +112,8 @@ export const idlFactory = ({ IDL }) => {
     'transfer' : IDL.Func([Account, Account, IDL.Nat], [Result], []),
     'updateMember' : IDL.Func([Member], [Result], []),
     'vote' : IDL.Func([IDL.Nat, IDL.Bool], [voteResult], []),
+    'whoami' : IDL.Func([], [IDL.Principal], ['query']),
   });
-  return DAO;
+  return ICDAO;
 };
 export const init = ({ IDL }) => { return []; };

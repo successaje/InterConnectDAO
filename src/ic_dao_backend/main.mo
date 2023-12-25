@@ -290,11 +290,11 @@ actor class ICDAO() = this {
     };
 
     public type VoteErr = {
-        #NotDAOMember;
-        #ProposalNotFound;
-        #NotEnoughTokens;
-        #AlreadyVoted;
-        #ProposalEnded;
+      #NotDAOMember;
+      #ProposalNotFound;
+      #NotEnoughTokens;
+      #AlreadyVoted;
+      #ProposalEnded;
     };
 
     public type voteResult = Result<VoteOk, VoteErr>;
@@ -470,7 +470,9 @@ actor class ICDAO() = this {
 
 
 
-    
+    public shared query ({ caller }) func whoami() : async Principal {
+        caller;
+    };
 
     
 

@@ -10,25 +10,6 @@ export type CreateProposalErr = { 'NotDAOMember' : null } |
 export type CreateProposalOk = bigint;
 export type CreateProposalResult = { 'ok' : CreateProposalOk } |
   { 'err' : CreateProposalErr };
-export interface DAO {
-  'addMember' : ActorMethod<[Member], Result>,
-  'balanceOf' : ActorMethod<[Account], bigint>,
-  'createProposal' : ActorMethod<[string], CreateProposalResult>,
-  'getAllMembers' : ActorMethod<[], Array<Member>>,
-  'getMember' : ActorMethod<[Principal], Result_1>,
-  'getProposal' : ActorMethod<[bigint], [] | [Proposal]>,
-  'getStats' : ActorMethod<[], DAOStats>,
-  'http_request' : ActorMethod<[HttpRequest], HttpResponse>,
-  'mint' : ActorMethod<[Principal, bigint], undefined>,
-  'numberOfMembers' : ActorMethod<[], bigint>,
-  'removeMember' : ActorMethod<[], Result>,
-  'tokenName' : ActorMethod<[], string>,
-  'tokenSymbol' : ActorMethod<[], string>,
-  'totalSupply' : ActorMethod<[], bigint>,
-  'transfer' : ActorMethod<[Account, Account, bigint], Result>,
-  'updateMember' : ActorMethod<[Member], Result>,
-  'vote' : ActorMethod<[bigint, boolean], voteResult>,
-}
 export interface DAOStats {
   'member' : Array<string>,
   'numberOfMembers' : bigint,
@@ -50,13 +31,44 @@ export interface HttpResponse {
   'streaming_strategy' : [] | [StreamingStrategy],
   'status_code' : number,
 }
-export interface Member { 'age' : bigint, 'name' : string }
+export interface ICDAO {
+  '_balance' : ActorMethod<[Principal], bigint>,
+  'addMember' : ActorMethod<[Member], Result>,
+  'balanceOf' : ActorMethod<[Account], bigint>,
+  'createProposal' : ActorMethod<[string], CreateProposalResult>,
+  'getAllMembers' : ActorMethod<[], Array<Member>>,
+  'getMember' : ActorMethod<[Principal], Result_1>,
+  'getOrgMembers' : ActorMethod<[], Array<Member>>,
+  'getProposal' : ActorMethod<[bigint], [] | [Proposal]>,
+  'getRegMembers' : ActorMethod<[], Array<Member>>,
+  'getStats' : ActorMethod<[], DAOStats>,
+  'http_request' : ActorMethod<[HttpRequest], HttpResponse>,
+  'isOrg' : ActorMethod<[Principal], boolean>,
+  'mint' : ActorMethod<[Principal, bigint], undefined>,
+  'numberOfMembers' : ActorMethod<[], bigint>,
+  'removeMember' : ActorMethod<[], Result>,
+  'tokenName' : ActorMethod<[], string>,
+  'tokenSymbol' : ActorMethod<[], string>,
+  'totalSupply' : ActorMethod<[], bigint>,
+  'transfer' : ActorMethod<[Account, Account, bigint], Result>,
+  'updateMember' : ActorMethod<[Member], Result>,
+  'vote' : ActorMethod<[bigint, boolean], voteResult>,
+  'whoami' : ActorMethod<[], Principal>,
+}
+export interface Member {
+  'age' : [] | [bigint],
+  'userName' : string,
+  'name' : string,
+  'email' : [] | [string],
+  'joinAs' : UserType,
+}
 export interface Proposal {
   'id' : bigint,
   'status' : Status,
   'votes' : bigint,
   'voters' : Array<Principal>,
   'manifest' : string,
+  'proposal_type' : UserType,
 }
 export type Result = { 'ok' : null } |
   { 'err' : string };
@@ -85,6 +97,8 @@ export type StreamingStrategy = {
     }
   };
 export type Subaccount = Uint8Array | number[];
+export type UserType = { 'Org' : null } |
+  { 'Reg' : null };
 export type VoteErr = { 'AlreadyVoted' : null } |
   { 'ProposalEnded' : null } |
   { 'ProposalNotFound' : null } |
@@ -95,4 +109,4 @@ export type VoteOk = { 'ProposalOpen' : null } |
   { 'ProposalAccepted' : null };
 export type voteResult = { 'ok' : VoteOk } |
   { 'err' : VoteErr };
-export interface _SERVICE extends DAO {}
+export interface _SERVICE extends ICDAO {}

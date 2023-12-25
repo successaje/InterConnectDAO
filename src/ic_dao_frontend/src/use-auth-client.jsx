@@ -1,4 +1,7 @@
-import { AuthClient } from "@dfinity/auth-client";
+// import { AuthClient } from "@dfinity/auth-client";
+
+import { AuthClient } from "../../../node_modules/@dfinity/auth-client";
+
 import React, { createContext, useContext, useEffect, useState} from "react";
 
 const AuthContext = createContext();

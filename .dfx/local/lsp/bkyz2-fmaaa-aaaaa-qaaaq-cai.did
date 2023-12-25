@@ -1,15 +1,100 @@
-type Token = service {
-  allowance : (principal, principal) -> (nat) query;
-  approve : (principal, nat) -> (bool);
-  balanceOf : (principal) -> (nat) query;
-  burn : (principal, nat) -> (bool);
-  decimals : () -> (nat) query;
-  mint : (principal, nat) -> (bool);
-  name : () -> (text) query;
-  owner : () -> (principal) query;
-  symbol : () -> (text) query;
-  totalSupply : () -> (nat) query;
-  transfer : (principal, nat) -> (bool);
-  transferFrom : (principal, principal, nat) -> (bool);
+type Account = record { owner : principal; subaccount : opt Subaccount };
+type CreateProposalErr = variant { NotDAOMember; NotEnoughTokens };
+type CreateProposalOk = nat;
+type CreateProposalResult = variant {
+  ok : CreateProposalOk;
+  err : CreateProposalErr;
 };
-service : Token
+type DAOStats = record {
+  member : vec text;
+  numberOfMembers : nat;
+  logo : text;
+  name : text;
+  manifesto : text;
+  goals : vec text;
+};
+type HeaderField = record { text; text };
+type HttpRequest = record {
+  url : text;
+  method : text;
+  body : vec nat8;
+  headers : vec HeaderField;
+};
+type HttpResponse = record {
+  body : vec nat8;
+  headers : vec HeaderField;
+  streaming_strategy : opt StreamingStrategy;
+  status_code : nat16;
+};
+type ICDAO = service {
+  _balance : (principal) -> (nat);
+  addMember : (Member) -> (Result);
+  balanceOf : (Account) -> (nat) query;
+  createProposal : (text) -> (CreateProposalResult);
+  getAllMembers : () -> (vec Member) query;
+  getMember : (principal) -> (Result_1) query;
+  getOrgMembers : () -> (vec Member) query;
+  getProposal : (nat) -> (opt Proposal) query;
+  getRegMembers : () -> (vec Member) query;
+  getStats : () -> (DAOStats) query;
+  http_request : (HttpRequest) -> (HttpResponse) query;
+  isOrg : (principal) -> (bool) query;
+  mint : (principal, nat) -> ();
+  numberOfMembers : () -> (nat) query;
+  removeMember : () -> (Result);
+  tokenName : () -> (text) query;
+  tokenSymbol : () -> (text) query;
+  totalSupply : () -> (nat) query;
+  transfer : (Account, Account, nat) -> (Result);
+  updateMember : (Member) -> (Result);
+  vote : (nat, bool) -> (voteResult);
+  whoami : () -> (principal) query;
+};
+type Member = record {
+  age : opt nat;
+  userName : text;
+  name : text;
+  email : opt text;
+  joinAs : UserType;
+};
+type Proposal = record {
+  id : nat;
+  status : Status;
+  votes : int;
+  voters : vec principal;
+  manifest : text;
+  proposal_type : UserType;
+};
+type Result = variant { ok; err : text };
+type Result_1 = variant { ok : Member; err : text };
+type Status = variant { Open; Rejected; Accepted };
+type StreamingCallback = func (StreamingCallbackToken) -> (
+    StreamingCallbackResponse,
+  ) query;
+type StreamingCallbackResponse = record {
+  token : opt StreamingCallbackToken;
+  body : vec nat8;
+};
+type StreamingCallbackToken = record {
+  key : text;
+  index : nat;
+  content_encoding : text;
+};
+type StreamingStrategy = variant {
+  Callback : record {
+    token : StreamingCallbackToken;
+    callback : StreamingCallback;
+  };
+};
+type Subaccount = vec nat8;
+type UserType = variant { Org; Reg };
+type VoteErr = variant {
+  AlreadyVoted;
+  ProposalEnded;
+  ProposalNotFound;
+  NotDAOMember;
+  NotEnoughTokens;
+};
+type VoteOk = variant { ProposalOpen; ProposalRefused; ProposalAccepted };
+type voteResult = variant { ok : VoteOk; err : VoteErr };
+service : ICDAO

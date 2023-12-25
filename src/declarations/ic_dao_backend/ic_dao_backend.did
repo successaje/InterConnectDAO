@@ -17,6 +17,11 @@ type VoteErr =
    ProposalEnded;
    ProposalNotFound;
  };
+type UserType = 
+ variant {
+   Org;
+   Reg;
+ };
 type Subaccount = blob;
 type StreamingStrategy = variant {
                            Callback:
@@ -57,14 +62,43 @@ type Proposal =
  record {
    id: nat;
    manifest: text;
+   proposal_type: UserType;
    status: Status;
    voters: vec principal;
    votes: int;
  };
 type Member = 
  record {
-   age: nat;
+   age: opt nat;
+   email: opt text;
+   joinAs: UserType;
    name: text;
+   userName: text;
+ };
+type ICDAO = 
+ service {
+   _balance: (principal) -> (nat);
+   addMember: (Member) -> (Result);
+   balanceOf: (Account) -> (nat) query;
+   createProposal: (text) -> (CreateProposalResult);
+   getAllMembers: () -> (vec Member) query;
+   getMember: (principal) -> (Result_1) query;
+   getOrgMembers: () -> (vec Member) query;
+   getProposal: (nat) -> (opt Proposal) query;
+   getRegMembers: () -> (vec Member) query;
+   getStats: () -> (DAOStats) query;
+   http_request: (HttpRequest) -> (HttpResponse) query;
+   isOrg: (principal) -> (bool) query;
+   mint: (principal, nat) -> ();
+   numberOfMembers: () -> (nat) query;
+   removeMember: () -> (Result);
+   tokenName: () -> (text) query;
+   tokenSymbol: () -> (text) query;
+   totalSupply: () -> (nat) query;
+   transfer: (Account, Account, nat) -> (Result);
+   updateMember: (Member) -> (Result);
+   vote: (nat, bool) -> (voteResult);
+   whoami: () -> (principal) query;
  };
 type HttpResponse = 
  record {
@@ -94,26 +128,6 @@ type DAOStats =
    name: text;
    numberOfMembers: nat;
  };
-type DAO = 
- service {
-   addMember: (Member) -> (Result);
-   balanceOf: (Account) -> (nat) query;
-   createProposal: (text) -> (CreateProposalResult);
-   getAllMembers: () -> (vec Member) query;
-   getMember: (principal) -> (Result_1) query;
-   getProposal: (nat) -> (opt Proposal) query;
-   getStats: () -> (DAOStats) query;
-   http_request: (HttpRequest) -> (HttpResponse) query;
-   mint: (principal, nat) -> ();
-   numberOfMembers: () -> (nat) query;
-   removeMember: () -> (Result);
-   tokenName: () -> (text) query;
-   tokenSymbol: () -> (text) query;
-   totalSupply: () -> (nat) query;
-   transfer: (Account, Account, nat) -> (Result);
-   updateMember: (Member) -> (Result);
-   vote: (nat, bool) -> (voteResult);
- };
 type CreateProposalResult = 
  variant {
    err: CreateProposalErr;
@@ -130,4 +144,4 @@ type Account =
    owner: principal;
    subaccount: opt Subaccount;
  };
-service : () -> DAO
+service : () -> ICDAO
