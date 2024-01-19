@@ -5,10 +5,10 @@ import Principal "mo:base/Principal";
 actor class Token(
     _owner: Principal,
     tokenMeta: {
-        _name: Text;
-        _symbol: Text;
-        _decimals: Nat;
-        _initialSupply: Nat;
+        _name: Text; // Boom
+        _symbol: Text; // BMD
+        _decimals: Nat; //
+        _initialSupply: Nat; //1_000_000_000_000
     },
     ) {
 
